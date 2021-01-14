@@ -10,10 +10,16 @@ class CheckoutTest extends AnyFlatSpec with should.Matchers {
 
   "Checkout" should "calculate the correct amount to pay" in {
 
-    val nonEmptyShopping: List[Product] = List(new Apple(), new Apple(), new Orange(), new Apple())
+    val nonEmptyShoppingAppleOffer: List[Product] = List(new Apple(), new Apple(), new Orange(), new Apple())
+    val nonEmptyShoppingOrangeOffer: List[Product] = List(new Apple(), new Orange(), new Orange(), new Orange())
     val emptyShopping: List[Product] = List()
 
-    checkout.toPay(nonEmptyShopping) should be (2.05)
+
+    // 3 apples 1 orange = 2*0.6 + 0.25
+    checkout.toPay(nonEmptyShoppingAppleOffer) should be (1.45)
+
+    // 1 apple 3 oranges = 0.6 + 0.5
+    checkout.toPay(nonEmptyShoppingOrangeOffer) should be (1.10)
     checkout.toPay(emptyShopping) should be (0)
 
   }
